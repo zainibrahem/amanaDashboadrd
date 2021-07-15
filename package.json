@@ -90,7 +90,7 @@
     "yup": "0.32.8"
   },
   "scripts": {
-    "start": "react-app-rewired start -H 0.0.0.0 -p ${PORT:-8080}",
+    "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",

@@ -25,7 +25,8 @@ const PagesRoutes = [
     component: lazy(() => import('../../views/pages/authentication/Register')),
     layout: 'BlankLayout',
     meta: {
-      authRoute: false,
+      authRoute: true,
+      publicRoute: true,
     },
   },
   {

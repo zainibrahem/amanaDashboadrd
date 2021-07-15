@@ -231,6 +231,16 @@ const Login = (props) => {
               <FormGroup>
                 <Input type='password' id='login-password' name='login-password' onChange={(e) => setPassword(e.target.value)} placeholder=' كلمة السر' autoFocus require />
               </FormGroup>
+              {/* <div style={{ textAlign: 'right' }}>
+                <Link
+                  to={{
+                    pathname: '/register',
+                  }}
+                >
+                  انشاء حساب
+                </Link>
+              </div> */}
+
               {/* <FormGroup>
               <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' />
             </FormGroup> */}
@@ -279,12 +289,6 @@ const Login = (props) => {
           <Col className='' to='/' onClick={(e) => e.preventDefault()}>
             {/* <h2 className='brand-text ml-1'>amana</h2> */}
           </Col>
-
-          {/* <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
-          <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
-            <img className='img-fluid' src={source} alt='Login V2' />
-          </div>
-        </Col> */}
         </Col>
       </Row>
     </div>
