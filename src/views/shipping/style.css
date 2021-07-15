@@ -1,0 +1,14 @@
+ .p .card .card-title {
+    /* font-weight: bold; */
+    font-size: 0.9rem;
+    color:#000
+}
+
+
+.btn-group > .btn:not([class*=btn-outline-]):not([class*=btn-flat-]):not([class*=btn-gradient-]):not([class*=btn-relief-]):last-child .btn-group > .btn:not([class*=btn-outline-]):not([class*=btn-flat-]):not([class*=btn-gradient-]):not([class*=btn-relief-]):last-of-type {
+    border-left-color: #f39c12 !important;
+}
+
+.btn-group > .btn:not([class*=btn-outline-]):not([class*=btn-flat-]):not([class*=btn-gradient-]):not([class*=btn-relief-]):last-child .btn-group > .btn:not([class*=btn-outline-]):not([class*=btn-flat-]):not([class*=btn-gradient-]):not([class*=btn-relief-]):last-of-type {
+    border-right-color: #f39c12 !important;
+}

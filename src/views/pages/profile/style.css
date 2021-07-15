@@ -1,0 +1,12 @@
+[dir=rtl] .dropdown .dropdown-menu.dropdown-menu-right, [dir=rtl] .dropup .dropdown-menu.dropdown-menu-right, [dir=rtl] .btn-group .dropdown-menu.dropdown-menu-right {
+    right: -123px !important;
+    
+}
+
+.btn-group, .btn-group-vertical {
+    display: none !important;
+}
+
+.s{
+    background-image:url('../../../assets/images/pages/v-2.png')
+}

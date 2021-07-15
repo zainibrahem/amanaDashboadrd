@@ -1,0 +1,4 @@
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+    border-color: #82868b !important;
+    background-color: #82868b !important;
+}

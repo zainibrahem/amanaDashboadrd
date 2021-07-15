@@ -1,0 +1,41 @@
+input:focus,
+select:focus,
+textarea:focus,
+a:focus,
+li:focus,
+button:focus {
+    outline: none !important;
+    box-shadow: none;
+}
+[dir] .main-menu.menu-light .navigation > li ul .active {
+    box-shadow: none !important;
+
+}
+[dir] .main-menu.menu-dark .navigation > li ul .active{
+    box-shadow: none !important;
+
+}
+a {outline : none !important}
+
+.main-menu.menu-light .navigation > li .active a > span{
+    color:#000 !important 
+}
+
+.text-truncate{
+    font-family:'droid arabic kufi' !important;
+    padding-left: 5px !important;
+    color: #fff !important;
+}
+/* 
+.main-menu.menu-light .navigation > li ul .active {
+    background: #2f2f2f !important;
+} */
+
+.main-menu.menu-light .navigation > li.active > a {
+    background:#2f2f2f !important
+}
+
+[dir] .main-menu.menu-light .navigation > li.active > a {
+    box-shadow: none !important;
+    border-radius: 4px;
+}

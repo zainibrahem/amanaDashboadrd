@@ -1,0 +1,50 @@
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: rgb(243 156 18) !important;
+    color: #fff !important;
+}
+.form-control:focus {
+    
+    outline: none !important;
+    border: 1px solid #f39c12 !important;
+} 
+.form-control {
+
+    height: 40px !important;
+    margin-top: 7px !important;
+}
+
+.btn:not(:disabled):not(.disabled):focus {
+    background-color:rgba(10, 10, 10, 0.07) !important;
+    border: 1px solid #f39c12 !important;
+
+
+}
+.btn:not(:disabled):not(.disabled):hover{
+    background-color:rgba(10, 10, 10, 0.001) ;
+    border: 1px solid #f39c12 !important;
+
+}
+
+.page-item.active .page-link {
+    background-color: #f39c12 !important;
+    color: #000 !important;
+    border-color:#f39c12 !important
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+    border-color: #82868b !important;
+    background-color: #82868b !important;
+}
+
+.dropdown .dropdown-menu.dropdown-menu-right, .dropup .dropdown-menu.dropdown-menu-right, .btn-group .dropdown-menu.dropdown-menu-right {
+    left: -140px !important;
+    right: 0px !important
+}
+
+.number{
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+ .pagination-sm .page-link{
+font-family: Arial, Helvetica, sans-serif !important;
+}
