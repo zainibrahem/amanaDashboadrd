@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-
+import Select, { components } from 'react-select';
+import { selectThemeColors } from '@utils';
 import { List, Plus, ChevronDown, ChevronUp, Trash2, Home, Settings, EyeOff, User, Search } from 'react-feather';
 import {
   TabContent,
@@ -33,6 +34,7 @@ import TableWithButtons from '../tables/data-tables/basic/TableWithButtons';
 import AppCollapse from '@components/app-collapse';
 import AutoComplete from '@components/autocomplete';
 
+//validation input value
 import NumberInput from '@components/number-input';
 import { EditorState } from 'draft-js';
 
@@ -154,6 +156,10 @@ const Catalog = () => {
   const [offer_end, setOffer_end] = useState(null);
   const [linked_items, setLinked_items] = useState(null);
   const [slug, setSlug] = useState(null);
+  const [tags, setTags] = useState({ tags: [] });
+  const [tagsValue, setTagsValue] = useState([]);
+
+  const [optionTags, setOptionTags] = useState({ optionTags: [] });
 
   // alert success
   const handleSuccess = (msg) => {
@@ -334,16 +340,72 @@ const Catalog = () => {
     }
   };
   console.log(searchResult);
+  const [size, setSize] = useState([]);
+  const [color, setColor] = useState([]);
+  const [sizNumber, setSizNumber] = useState([]);
+  const [ahmad_aa, setAhmad_aa] = useState([]);
+  const [ahmad_kassar, setAhmad_kassar] = useState([]);
+  const [wadawd, setWadawd] = useState([]);
 
+  const hundelVarient = (id) => {
+    axios
+      .get(`https://amanacart.com/api/admin/stock/inventory/setVariant/${id}`, auth)
+      .then((response) => {
+        console.log(response.data);
+        const array = [];
+        const arrayColor = [];
+        const arraySiznumber = [];
+        const arrayAhmad_aa = [];
+        const arrayAhmad_kassar = [];
+        const arrayWadawd = [];
+        response.data.variants[0].attribute_values.map((ele) => {
+          array.push({ value: ele.id, label: ele.value });
+        });
+        response.data.variants[1].attribute_values.map((ele) => {
+          arrayColor.push({ value: ele.id, label: ele.value });
+        });
+        response.data.variants[2].attribute_values.map((ele) => {
+          arraySiznumber.push({ value: ele.id, label: ele.value });
+        });
+        response.data.variants[3].attribute_values.map((ele) => {
+          arrayAhmad_aa.push({ value: ele.id, label: ele.value });
+        });
+        response.data.variants[4].attribute_values.map((ele) => {
+          arrayAhmad_kassar.push({ value: ele.id, label: ele.value });
+        });
+        response.data.variants[5].attribute_values.map((ele) => {
+          arrayWadawd.push({ value: ele.id, label: ele.value });
+        });
+        setSize(array);
+        setColor(arrayColor);
+        setSizNumber(arraySiznumber);
+        setAhmad_aa(arrayAhmad_aa);
+        setAhmad_kassar(arrayAhmad_kassar);
+        setWadawd(arrayWadawd);
+      })
+      .catch((error) => {
+        // console.log(error);
+        if (error.response) {
+          console.log(error.response.status);
+          if (error.response.status === 500) {
+            handleErrorNetwork(`${error.response.status} internal server error`);
+            console.log(error.response.status);
+          } else if (error.response.status === 404) {
+            handleErrorNetwork(`${error.response.status} no product found`);
+          } else {
+            handleError(error.response.data.error);
+          }
+        } else {
+          handleErrorNetwork(`${error}`);
+        }
+      });
+  };
   return (
     <div id='dashboard-analytics'>
       <Row className='match-height mb-3'>
         <Col lg='12' md='12' xs='12'>
-          {/* style={{ borderRadius: '0px', borderBottom: '1px solid blue' }} */}
           <Card className='m-0'>
-            {/* style={{ padding: '10px' }} */}
             <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start'>
-              {/* style={{ marginTop: '12px' }} */}
               <CardTitle tag='h4' style={{ marginBottom: '0rem', marginTop: '0.8rem' }}>
                 المخزونات
               </CardTitle>
@@ -356,11 +418,6 @@ const Catalog = () => {
             <CardBody>
               <Collapse isOpen={isOpen_inven}>
                 <InputGroup className='mb-2'>
-                  <InputGroupAddon addonType='prepend'>
-                    <InputGroupText>
-                      <Search size={14} />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder='Search a product by its GTIN,Name or Model Number ' name='search' onChange={(e) => hundelSearch(e)} />
                 </InputGroup>{' '}
                 {searchResult.length && searchResult.length > 0
@@ -369,7 +426,7 @@ const Catalog = () => {
                         <>
                           <Card>
                             <Row className='match-height' style={{ border: '1px solid #e6dfdf', padding: '10px' }}>
-                              <Col lg='8' md='8' sm='8' xs='12'>
+                              <Col lg='4' md='8' sm='8' xs='12'>
                                 <h5>{e.name}</h5>
                                 <p>
                                   {e.gtin_type}:{e.gtin}
@@ -377,16 +434,48 @@ const Catalog = () => {
                                 <p>{e.model_number ? e.model_number : 'no model number'}:رقم الموديل</p>
                                 <p>{e.brand} :العلامة التجارية</p>
                               </Col>
-                              <Col lg='4' md='4' sm='4' xs='12' style={{ justifyContent: 'center', textAlign: 'right' }}>
-                                <Link to={`/stock/Inventories/add/${e.id}`}>
-                                  {' '}
-                                  <Button className='' color='primary' style={{ padding: '0.7343rem 0.1rem' }}>
-                                    <Plus size={15} />
-                                    <span className='align-middle ml-30' style={{ whiteSpace: 'nowrap' }}>
-                                      اضافة الى المخزون{' '}
-                                    </span>
-                                  </Button>
-                                </Link>
+                              <Col lg='8' md='8' sm='12' xs='12' style={{ display: 'content', textAlign: 'end' }}>
+                                {e.has_variant === true ? (
+                                  <>
+                                    <Row style={{ justifyContent: 'flex-end' }}>
+                                      <Col lg='4' styl={{ flexFlow: 'row' }}>
+                                        <Link to={`/stock/Inventories/add/${e.id}`}>
+                                          {' '}
+                                          <Button className='' color='primary' style={{ padding: '10px 8px' }}>
+                                            {/* <Plus size={15} /> */}
+                                            اضافة الى المخزون{' '}
+                                          </Button>
+                                        </Link>
+                                      </Col>
+
+                                      <Col lg='4'>
+                                        <Button
+                                          className=''
+                                          color='primary'
+                                          style={{ padding: '10px 8px' }}
+                                          onClick={() => {
+                                            setBasicModals(!basicModals);
+                                            hundelVarient(e.id);
+                                          }}
+                                        >
+                                          إضافة إلى المخزون مع البديل
+                                        </Button>
+                                      </Col>
+                                    </Row>
+                                  </>
+                                ) : (
+                                  <Row style={{ justifyContent: 'flex-end' }}>
+                                    <Col style={{ textAlign: 'end' }}>
+                                      <Link to={`/stock/Inventories/add/${e.id}`}>
+                                        {' '}
+                                        <Button className='' color='primary' style={{ padding: '10px 8px' }}>
+                                          {/* <Plus size={15} /> */}
+                                          اضافة الى المخزون{' '}
+                                        </Button>
+                                      </Link>
+                                    </Col>
+                                  </Row>
+                                )}
                               </Col>
                             </Row>
                           </Card>
@@ -524,17 +613,6 @@ const Catalog = () => {
         </TabPane>
         <TabPane tabId='3'>
           <Row className='match-height'>
-            {/* <Col md='12' xs='12'>
-              <Card className='m-0'>
-                <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-                  <CardTitle tag='h4'>MANUFACTURERS</CardTitle>
-                  <Button className='ml-2' color='primary' onClick={() => setBasicModal(!basicModal)}>
-                    <Plus size={15} />
-                    <span className='align-middle ml-50'>ADD MANUFACTURERS </span>
-                  </Button>
-                </CardHeader>
-              </Card>
-            </Col> */}
             <Col>
               <TableWithButtons columns={Columns} data={out_of_stock_data} />
             </Col>
@@ -640,6 +718,105 @@ const Catalog = () => {
           </Modal>
         </TabPane>
       </TabContent>
+      {/**varient product */}
+      <Modal isOpen={basicModals} toggle={() => setBasicModals(!basicModals)} className='modal-dialog-centered modal-lg'>
+        <ModalHeader toggle={() => setBasicModals(!basicModals)}>اضبط المتغيرات</ModalHeader>
+        <ModalBody>
+          <Row style={{ padding: '10px 20px' }}>
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <Label for='tags'>العلامات</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue=''
+                isMulti
+                name='tags'
+                options={size}
+                className='react-select'
+                classNamePrefix='select'
+                // onChange={(e) => setTagss(e)}
+              />
+            </Col>
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <Label for='tags'>اللون</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue=''
+                isMulti
+                name='tags'
+                options={color}
+                className='react-select'
+                classNamePrefix='select'
+                // onChange={(e) => setTagss(e)}
+              />
+            </Col>
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <Label for='tags'>نمرة القياس</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue=''
+                isMulti
+                name='tags'
+                options={sizNumber}
+                className='react-select'
+                classNamePrefix='select'
+                // onChange={(e) => setTagss(e)}
+              />
+            </Col>
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <Label for='tags'>AHMAD AA</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue=''
+                isMulti
+                name='tags'
+                options={ahmad_aa}
+                className='react-select'
+                classNamePrefix='select'
+                // onChange={(e) => setTagss(e)}
+              />
+            </Col>
+
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <Label for='tags'>AHMAD KASSRA</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue=''
+                isMulti
+                name='tags'
+                options={ahmad_kassar}
+                className='react-select'
+                classNamePrefix='select'
+                // onChange={(e) => setTagss(e)}
+              />
+            </Col>
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <Label for='tags'>WADAWD</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue=''
+                isMulti
+                name='tags'
+                options={[]}
+                className='react-select'
+                classNamePrefix='select'
+                // onChange={(e) => setTagss(e)}
+              />
+            </Col>
+
+            <Col className='mb-1 d-flex justify-content-end' xs='12'>
+              <Button color='primary' type='submit'>
+                وضع المتغيرات
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };

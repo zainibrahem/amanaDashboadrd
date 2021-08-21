@@ -27,7 +27,7 @@ import SettingsRoutes from './Settings';
 const TemplateTitle = '%s - Vuexy React Admin Template';
 
 // ** Default Route
-const DefaultRoute = '/dashboard/ecommerce';
+const DefaultRoute = '/admin';
 
 // ** Merge Routes
 const Routes = [

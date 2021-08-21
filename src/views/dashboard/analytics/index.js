@@ -12,20 +12,22 @@ import Sales from '@src/views/ui-elements/cards/analytics/Sales';
 import AvgSessions from '@src/views/ui-elements/cards/analytics/AvgSessions';
 import CardAppDesign from '@src/views/ui-elements/cards/advance/CardAppDesign';
 import SupportTracker from '@src/views/ui-elements/cards/analytics/SupportTracker';
-import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Table } from 'reactstrap';
+import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Table, Alert } from 'reactstrap';
 import OrdersReceived from '@src/views/ui-elements/cards/statistics/OrdersReceived';
 import CardCongratulations from '@src/views/ui-elements/cards/advance/CardCongratulations';
 import SubscribersGained from '@src/views/ui-elements/cards/statistics/SubscribersGained';
 import ApexLineChart from '../../charts/apex/ApexLineChart';
 import { useRTL } from '@hooks/useRTL';
 import CardAction from '@components/card-actions';
-import { ChevronDown, RotateCw, X } from 'react-feather';
+import { ChevronDown, RotateCw, X, AlertCircle } from 'react-feather';
 import '@styles/react/libs/charts/apex-charts.scss';
 import useJwt from '@src/auth/jwt/useJwt';
 import axios from 'axios';
 import { Columns } from '../../tables/data-tables/dashboard_top_custom';
 import TableWithButtons from '../../tables/data-tables/basic/TableWithButtons';
 import { Columns_return_custom } from '../../tables/returning_customersData';
+
+import './style.css';
 
 const AnalyticsDashboard = () => {
   const { colors } = useContext(ThemeColors);
@@ -37,6 +39,10 @@ const AnalyticsDashboard = () => {
     },
   };
   const [top_cus_data, setTop_cus_data] = useState([]);
+  const [close, setClose] = useState(false);
+  const [close1, setClose1] = useState(false);
+  const [close2, setClose2] = useState(false);
+  const [close3, setClose3] = useState(false);
 
   const avatarGroupArr = [
       {
@@ -136,6 +142,22 @@ const AnalyticsDashboard = () => {
   } catch (e) {
     console.log(e);
   }
+  const [notic, setNotic] = useState('');
+  useEffect(() => {
+    axios.get('https://amanacart.com/api/admin/notifications', auth).then((response) => {
+      setNotic(response.data.notice);
+
+      console.log(response.data);
+    });
+  }, []);
+  const [status_ver, setStatus_ver] = useState('');
+  useEffect(() => {
+    axios.get('https://amanacart.com/api/admin/profile', auth).then((response) => {
+      setStatus_ver(response.data.profile.verified);
+
+      console.log(response.data);
+    });
+  }, []);
 
   return (
     <div id='dashboard-analytics'>
@@ -149,6 +171,77 @@ const AnalyticsDashboard = () => {
         {/* <Col lg='3' sm='6'>
           <OrdersReceived kFormatter={kFormatter} warning={colors.order.main} />
         </Col> */}
+        {close === false ? (
+          <Col lg='12'>
+            <Alert color='warning'>
+              <div className='alert-body d-flex' style={{ justifyContent: 'space-between' }}>
+                <div>
+                  <AlertCircle size={15} /> <span className='ml-1'>تنويه:{notic ? notic : 'لا يوجد تنويه'}</span>
+                </div>
+                <X size={25} onClick={() => setClose(true)} style={{ cursor: 'pointer' }} />
+              </div>
+            </Alert>
+          </Col>
+        ) : (
+          ''
+        )}
+        {status_ver ? (
+          <Col lg='12'>
+            {close1 === false ? (
+              <Alert color='warning'>
+                <div className='alert-body d-flex' style={{ justifyContent: 'space-between' }}>
+                  <div>
+                    {' '}
+                    <AlertCircle size={15} />{' '}
+                    <span className='ml-1'>
+                      تنويه:
+                      {!status_ver.id === false ? 'تم تاكيد رفع الملف التجاري' : 'يرجى اعادة رفع الملف التجاري'}
+                    </span>
+                  </div>
+
+                  <X size={25} onClick={() => setClose1(true)} style={{ cursor: 'pointer' }} />
+                </div>
+              </Alert>
+            ) : (
+              ''
+            )}
+            {close2 === false ? (
+              <Alert color='warning'>
+                <div className='alert-body d-flex' style={{ justifyContent: 'space-between' }}>
+                  <div>
+                    <AlertCircle size={15} />{' '}
+                    <span className='ml-1'>
+                      تنويه:
+                      {!status_ver.phone === false ? ' تم تاكيد رقم الهاتف' : 'يرجى اعادة اخال رقم هاتف جديد وصالح'}
+                    </span>
+                  </div>
+                  <X size={25} onClick={() => setClose2(true)} style={{ cursor: 'pointer' }} />
+                </div>
+              </Alert>
+            ) : (
+              ''
+            )}
+
+            {close3 === false ? (
+              <Alert color='warning'>
+                <div className='alert-body d-flex' style={{ justifyContent: 'space-between' }}>
+                  <div>
+                    <AlertCircle size={15} />{' '}
+                    <span className='ml-1'>
+                      تنويه:
+                      {!status_ver.address === false ? 'تم تاكيد العنوان' : 'يرجى اعادة ادخال عنوان جديد وصالح'}
+                    </span>
+                  </div>
+                  <X size={25} onClick={() => setClose3(true)} style={{ cursor: 'pointer' }} />
+                </div>
+              </Alert>
+            ) : (
+              ''
+            )}
+          </Col>
+        ) : (
+          ''
+        )}
       </Row>
       <Row className='match-height'>
         <Col lg='6' xs='12'>

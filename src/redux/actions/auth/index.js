@@ -89,6 +89,29 @@ export const handleLogin = (data) => {
     localStorage.setItem(config.storageRefreshTokenKeyName, data['accessToken']);
   };
 };
+// export const handleRegester = (data) => {
+//   return (dispatch) => {
+//     // dispatch({
+//     //   type: 'LOGIN',
+//     //   data,
+//     //   config,
+//     //   [config.storageTokenKeyName]: localStorage.getItem('token'),
+//     //   [config.storageRefreshTokenKeyName]: localStorage.getItem('token'),
+//     // });
+//     dispatch({
+//       type: 'REGISTER',
+//       data,
+//       config,
+//       [config.storageTokenKeyName]: data['accessToken'],
+//       [config.storageRefreshTokenKeyName]: data['accessToken'],
+//     });
+
+//     // ** Add to user, accessToken & refreshToken to localStorage
+//     localStorage.setItem('userData', JSON.stringify(data));
+//     localStorage.setItem(config.storageTokenKeyName, data['accessToken']);
+//     localStorage.setItem(config.storageRefreshTokenKeyName, data['accessToken']);
+//   };
+// };
 const auth = {
   headers: {
     Authorization: `${config.tokenType} ${config.storageTokenKeyName}`,

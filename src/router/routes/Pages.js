@@ -10,6 +10,7 @@ const PagesRoutes = [
       publicRoute: true,
     },
   },
+
   {
     path: '/pages/login-v1',
     component: lazy(() => import('../../views/pages/authentication/LoginV1')),

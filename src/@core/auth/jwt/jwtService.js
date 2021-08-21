@@ -105,8 +105,6 @@ export default class JwtService {
 
   login(...args) {
     return axios.post(this.jwtConfig.loginEndpoint, ...args);
-    // .then((res) => console.log('ddd'))
-    // .catch((err) => toast.error(<ToastContent />, { transition: Slide, hideProgressBar: true }));
   }
 
   register(...args) {

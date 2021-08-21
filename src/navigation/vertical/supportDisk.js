@@ -29,6 +29,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: '/supportDisk/refunds',
       },
+      {
+        id: 'ticket',
+        title: 'ticket',
+        permissions: ['admin', 'editor'],
+        navLink: '/ticket/:id',
+        newTab: true,
+      },
     ],
   },
 ];

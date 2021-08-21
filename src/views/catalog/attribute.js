@@ -200,15 +200,16 @@ const Catalog = () => {
 
   const handleSubmitValue = (e) => {
     e.preventDefault();
-    const formData = new Form();
+    const formData = new FormData();
     formData.append('attribute_id', attribute_id);
     // formData.append('name', name);
 
     formData.append('value', att_value);
+    console.log(`${attribute_id} ${att_value}`)
 
     if (attribute_id && att_value) {
       axios
-        .post('https://amanacart.com/api/admin/catalog/attributeValue', auth, formData)
+        .post('https://amanacart.com/api/admin/catalog/attributeValue', formData,auth)
         .then((response) => {
           // console.log(response)
           handleSuccess('ADD SUCCESS');

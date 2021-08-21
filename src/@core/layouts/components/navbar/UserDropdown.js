@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // ** Custom Components
 import Avatar from '@components/avatar';
-
+import './style.css';
 // ** Utils
 import { isUserLoggedIn } from '@utils';
 

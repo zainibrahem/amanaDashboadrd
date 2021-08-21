@@ -1,6 +1,9 @@
 import { useContext, useState, useEffect } from 'react';
 import { List, Plus, ChevronDown, ChevronUp, Trash2, Home, Settings, EyeOff, User, Search } from 'react-feather';
 import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
   TabContent,
   TabPane,
   Nav,
@@ -26,7 +29,8 @@ import TableWithButtons from '../tables/data-tables/basic/TableWithButtons';
 import NumberInput from '@components/number-input';
 import { EditorState } from 'draft-js';
 import './style.css';
-
+import AsyncSelect from 'react-select/async';
+import { Link } from 'react-router-dom';
 // ** Table Data & Columns
 import { Columns, ColumnsTrash } from '../tables/data-tables/orderData';
 import '@styles/react/libs/charts/apex-charts.scss';
@@ -71,7 +75,6 @@ const Catalog = (props) => {
       setdata(response.data.orders.all);
       setUnpaid(response.data.orders.unpaid);
       setUnfullfilled(response.data.orders.unfulfilled);
-      console.log(response.data.orders);
       setTrashData(response.data.trashes);
     });
   }, []);
@@ -240,6 +243,90 @@ const Catalog = (props) => {
   const handleFileSelectedCover = (e) => {
     setCover_image(e.target.files[0]);
   };
+  const [searchResult, setSearchResult] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const hundelSearch = (e) => {
+    // if (e.target.value.length >= 3) {
+    console.log(e);
+    axios
+      .get(`https://amanacart.com/api/admin/search/customer?q=${e}`, auth)
+      .then((response) => {
+        console.log(response.data);
+        setSearchResult(response.data);
+        // setInactive_listings_data(response.data.inventories.inactive_listings);
+        // setOut_of_stock_data(response.data.inventories.out_of_stock);
+        // console.log(response.data);
+        // setTrashData(response.data.trashes);
+      })
+      .catch((error) => {
+        // console.log(error);
+        if (error.response) {
+          console.log(error.response.status);
+          if (error.response.status === 500) {
+            handleErrorNetwork(`${error.response.status} internal server error`);
+            console.log(error.response.status);
+          } else if (error.response.status === 404) {
+            handleErrorNetwork(`${error.response.status} no product found`);
+          } else {
+            handleError(error.response.data.error);
+          }
+        } else {
+          handleErrorNetwork(`${error}`);
+        }
+      });
+    // else {
+    //   setSearchResult([]);
+    // }
+  };
+  console.log(searchResult);
+  const colorOptions = [
+    // { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
+  ];
+  searchResult && Object.keys(searchResult || {}).length > 0
+    ? Object.keys(searchResult || {}).map((e) => colorOptions.push({ value: `${searchResult[e].id}`, label: `${searchResult[e].text}`, isFixed: true }))
+    : '';
+
+  const filterColors2 = (inputValue) => {
+    return colorOptions.filter((i) => i.label.toLowerCase().includes(inputValue.toLowerCase()));
+  };
+  const promiseOptions = (inputValue,callBack) => {
+    
+    if(!inputValue){
+      callBack([]);
+    }
+    else{
+      setTimeout(()=>{
+        axios
+        .get(`https://amanacart.com/api/admin/search/customer?q=${inputValue}`, auth)
+        .then((response) => {
+          const tempArray = [];
+          response.data.forEach(element => {
+            tempArray.push({label : `${element.text}`,value : element.id})
+          });
+          callBack(tempArray)
+          setSearchResult(response.data);
+        })
+        .catch((error) => {
+          // console.log(error);
+          if (error.response) {
+            console.log(error.response.status);
+            if (error.response.status === 500) {
+              handleErrorNetwork(`${error.response.status} internal server error`);
+              console.log(error.response.status);
+            } else if (error.response.status === 404) {
+              handleErrorNetwork(`${error.response.status} no product found`);
+            } else {
+              handleError(error.response.data.error);
+            }
+          } else {
+            handleErrorNetwork(`${error}`);
+          }
+        });
+      })
+    }
+  
+  };
+  // console.log(selected);
 
   return (
     <div id='dashboard-analytics'>
@@ -379,6 +466,39 @@ const Catalog = (props) => {
           </Row>
         </TabPane>
       </TabContent>
+      <Modal isOpen={basicModal} toggle={() => setBasicModal(!basicModal)} className=''>
+        <ModalHeader toggle={() => setBasicModal(!basicModal)}> بحث</ModalHeader>
+        <ModalBody>
+          <Row>
+            <Col className='mb-1' lg='12' md='12' xs='12'>
+              <AsyncSelect
+                onInputChange={(e) => {
+                  hundelSearch(e);
+                }}
+                onChange={(e) => setSelected(e)}
+                isClearable={false}
+                className='react-select'
+                classNamePrefix='select'
+                loadOptions={promiseOptions}
+                cacheOptions
+                defaultOptions
+              />
+            </Col>
+
+            <Col className='mb-1 d-flex justify-content-end' xs='12'>
+              <Link
+                to={{
+                  pathname: `/order/order/${selected ? selected.value : ''}`,
+                }}
+              >
+                <Button color='primary' type='submit'>
+                  معالجة الطلب
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };

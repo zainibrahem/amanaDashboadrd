@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Editor } from 'react-draft-wysiwyg';
 import Select, { components } from 'react-select';
 import { selectThemeColors } from '@utils';
@@ -36,6 +36,7 @@ const Catalog = (props) => {
     },
   };
   const [visibleImageError, setVisibleImageError] = useState('');
+  const history = useHistory();
 
   const [value, setValue] = useState(EditorState.createEmpty());
   //init input value
@@ -102,7 +103,7 @@ const Catalog = (props) => {
     return MySwal.fire({
       title: 'Error!',
       text: 'click Ok to show errors',
-      text: `${errMsg}`,
+      text: `${errMsg} `,
       icon: 'error',
       customClass: {
         confirmButton: 'btn btn-primary',
@@ -124,17 +125,26 @@ const Catalog = (props) => {
   };
   useEffect(() => {
     axios
-      .get(`https://amanacart.com/api/admin/stock/inventory/add/${params.id}`, auth)
+      .get(`https://amanacart.com/api/admin/stock/inventory/${params.id}`, auth)
       .then((response) => {
         setTags({ tags: response.data.tags });
         setItems({ items: response.data.items });
+        setTitle(response.data.title);
+        setSku(response.data.sku);
+        setSlug(response.data.slug);
+        setCondition(response.data.condition);
+        setActive(response.data.active);
+        setCondition_note(response.data.condition_note);
+        setDescription(response.data.description.replace(/(<([^>]+)>)/gi, ''));
+        setStock_quantity(response.data.stock_quantity);
+        setMin_order_quantity(response.data.min_order_quantity);
+        setSale_price(response.data.sale_price);
+        setOffer_price(response.data.offer_price);
+        setOffer_start(response.data.offer_start);
+        setOffer_end(response.data.offer_end);
         const arrayItems = [];
         const array = [];
-        // response.data.tags
-        //   ? response.data.tags.forEach((ele) => {
-        //       array.push({ value: ele.id, label: ele.name });
-        //     })
-        //   : '';
+
         response.data.tags
           ? Object.keys(response.data.tags || {}).map((ele) => {
               array.push({ value: ele, label: response.data.tags[ele] });
@@ -159,10 +169,10 @@ const Catalog = (props) => {
           } else if (error.response.status === 404) {
             handleErrorNetwork(`${error.response.status} page not found`);
           } else {
-            handleError(error.response.data.error);
+            handleError(`${error.response.data.error} `);
           }
         } else {
-          handleErrorNetwork(`${error}`);
+          handleErrorNetwork(`${error} `);
         }
       });
   }, []);
@@ -215,14 +225,14 @@ const Catalog = (props) => {
         console.log(response);
         handleSuccess('ADD SUCCESS');
         setBasicModal(!basicModal);
-        window.location.reload();
+        history.push('/stock/inventories');
       })
       .catch((error) => {
         // console.log(error);
         if (error.response) {
           console.log(error.response.status);
           if (error.response.status === 500) {
-            handleErrorNetwork(`${error.response.status} internal server error`);
+            handleErrorNetwork(` the date must be like:2021-07-30 01:14 am `);
             console.log(error.response.status);
           } else if (error.response.status === 404) {
             handleErrorNetwork(`${error.response.status} page not found`);
@@ -251,15 +261,15 @@ const Catalog = (props) => {
         <Row style={{ padding: '10px 20px' }}>
           <Col className='mb-1' lg='12' md='12' xs='12'>
             <Label for='title'>العنوان*</Label>
-            <Input type='text' name='title' id='title' onChange={(e) => setTitle(e.target.value)} required />
+            <Input type='text' name='title' id='title' onChange={(e) => setTitle(e.target.value)} value={title} required />
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='sku'>SKU*</Label>
-            <Input type='text' name='sku' id='sku' onChange={(e) => setSku(e.target.value)} required />
+            <Input type='text' name='sku' id='sku' onChange={(e) => setSku(e.target.value)} value={sku} required />
           </Col>
           <Col className='mb-1' lg='4' md='4' xs='12'>
             <Label for='condition'>الشرط *</Label>
-            <Input type='select' name='condition' id='condition' onChange={(e) => setCondition(e.target.value)} required>
+            <Input type='select' name='condition' id='condition' onChange={(e) => setCondition(e.target.value)} value={condition} required>
               <option>تحديد</option>
               <option value={'New'}>New</option>
               <option value={'Used'}>Used</option>
@@ -268,26 +278,26 @@ const Catalog = (props) => {
           </Col>
           <Col className='mb-1' lg='2' md='2' xs='12'>
             <Label for='status'>الحالة *</Label>
-            <Input type='select' name='active' id='status' onChange={(e) => setActive(e.target.value)} required>
+            <Input type='select' name='active' id='status' onChange={(e) => setActive(e.target.value)} value={active} required>
               <option>Select Status</option>
-              <option value={1}>Active</option>
-              <option value={0}>InActive</option>
+              <option value={true}>Active</option>
+              <option value={false}>InActive</option>
             </Input>
           </Col>
           <Col className='mb-1' lg='12' md='12' xs='12'>
             <Label for='condition_note'>ملاحظة الشرط*</Label>
-            <Input type='text' name='condition_note' id='condition_note' onChange={(e) => setCondition_note(e.target.value)} required />
+            <Input type='text' name='condition_note' id='condition_note' onChange={(e) => setCondition_note(e.target.value)} value={condition_note} required />
           </Col>
           <Col className='mb-1' lg='12' md='12' xs='12'>
             <Label for='slug'> SLUG*</Label>
-            <Input type='text' name='slug' id='slug' onChange={(e) => setSlug(e.target.value)} required />
+            <Input type='text' name='slug' id='slug' onChange={(e) => setSlug(e.target.value)} value={slug} required />
           </Col>
           {/* editorState={value} onEditorStateChange={(data) => setValue(data)} */}
           {/* <Editor  name='description' id='description' required placeholder='Start From here' /> */}
 
           <Col className='mb-1' lg='12' md='12' md='12'>
             <Label>الوصف*</Label>
-            <Input type='text' type='text' name='description' id='description' onChange={(e) => setDescription(e.target.value)} />
+            <Input type='text' type='text' name='description' id='description' onChange={(e) => setDescription(e.target.value)} value={description} readOnly />
           </Col>
           <Col lg='12' md='12' sm='12'>
             <FormGroup>
@@ -318,23 +328,23 @@ const Catalog = (props) => {
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='stock_quantity'>كمية المخزون*</Label>
-            <Input type='number' name='stock_quantity' id='stock_quantity' onChange={(e) => setStock_quantity(e.target.value)} required />
+            <Input type='number' name='stock_quantity' id='stock_quantity' onChange={(e) => setStock_quantity(e.target.value)} value={stock_quantity} required />
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='min_order_quantity'>الحد الادنى للطلب *</Label>
-            <Input type='number' name='min_order_quantity' id='min_order_quantity' onChange={(e) => setMin_order_quantity(e.target.value)} required />
+            <Input type='number' name='min_order_quantity' id='min_order_quantity' onChange={(e) => setMin_order_quantity(e.target.value)} value={min_order_quantity} required />
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='price'>السعر *</Label>
-            <Input type='number' name='price' id='price' onChange={(e) => setSale_price(e.target.value)} required />
+            <Input type='number' name='price' id='price' onChange={(e) => setSale_price(e.target.value)} value={sale_price} required />
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='offer_price'>سعر العرض *</Label>
-            <Input type='number' name='offer_price' id='offer_price' onChange={(e) => setOffer_price(e.target.value)} required />
+            <Input type='number' name='offer_price' id='offer_price' onChange={(e) => setOffer_price(e.target.value)} value={offer_price} required />
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='offer_start'>تاريخ بدء العرض*</Label>
-            <Input type='text' name='offer_start' id='offer_start' required onChange={(e) => setOffer_start(e.target.value)} placeholder='2021-06-30 09:14 pm' />
+            <Input type='text' name='offer_start' id='offer_start' required onChange={(e) => setOffer_start(e.target.value)} value={offer_start} placeholder='2021-06-30 09:14 pm' />
             {/* <Flatpickr
               value={picker}
               id='offer_start'
@@ -351,7 +361,7 @@ const Catalog = (props) => {
           </Col>
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='offer_end'>تاريخ نهاية العرض*</Label>
-            <Input type='text' name='offer_end' id='offer_end' required onChange={(e) => setOffer_end(e.target.value)} placeholder='2021-07-30 01:14 am' />
+            <Input type='text' name='offer_end' id='offer_end' required onChange={(e) => setOffer_end(e.target.value)} value={offer_end} placeholder='2021-07-30 01:14 am' />
           </Col>
           <Col>
             <Label for='itmes'>العناصر</Label>

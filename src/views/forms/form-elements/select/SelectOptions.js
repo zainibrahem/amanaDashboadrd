@@ -1,27 +1,11 @@
-import { useState } from 'react'
-import { Card, CardHeader, CardTitle, CardBody, Row, Col, Label } from 'reactstrap'
-import { selectThemeColors } from '@utils'
-import Select, { components } from 'react-select'
-import makeAnimated from 'react-select/animated'
-import CreatableSelect from 'react-select/creatable'
-import AsyncSelect from 'react-select/async'
-import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  GitHub,
-  Instagram,
-  Dribbble,
-  Gitlab,
-  File,
-  FileText,
-  Image,
-  Figma,
-  Chrome,
-  Command,
-  Slack,
-  Youtube
-} from 'react-feather'
+import { useState } from 'react';
+import { Card, CardHeader, CardTitle, CardBody, Row, Col, Label } from 'reactstrap';
+import { selectThemeColors } from '@utils';
+import Select, { components } from 'react-select';
+import makeAnimated from 'react-select/animated';
+import CreatableSelect from 'react-select/creatable';
+import AsyncSelect from 'react-select/async';
+import { Facebook, Twitter, Linkedin, GitHub, Instagram, Dribbble, Gitlab, File, FileText, Image, Figma, Chrome, Command, Slack, Youtube } from 'react-feather';
 
 const colorOptions = [
   { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
@@ -29,8 +13,8 @@ const colorOptions = [
   { value: 'purple', label: 'Purple', color: '#5243AA', isFixed: true },
   { value: 'red', label: 'Red', color: '#FF5630', isFixed: false },
   { value: 'orange', label: 'Orange', color: '#FF8B00', isFixed: false },
-  { value: 'yellow', label: 'Yellow', color: '#FFC400', isFixed: false }
-]
+  { value: 'yellow', label: 'Yellow', color: '#FFC400', isFixed: false },
+];
 
 const iconOptions = [
   {
@@ -39,47 +23,47 @@ const iconOptions = [
       {
         value: 'facebook',
         label: 'Facebook',
-        icon: Facebook
+        icon: Facebook,
       },
       {
         value: 'twitter',
         label: 'Twitter',
-        icon: Twitter
+        icon: Twitter,
       },
       {
         value: 'linkedin',
         label: 'Linkedin',
-        icon: Linkedin
+        icon: Linkedin,
       },
       {
         value: 'github',
         label: 'Github',
-        icon: GitHub
+        icon: GitHub,
       },
       {
         value: 'instagram',
         label: 'Instagram',
-        icon: Instagram
+        icon: Instagram,
       },
       {
         value: 'dribbble',
         label: 'Dribbble',
-        icon: Dribbble
+        icon: Dribbble,
       },
       {
         value: 'gitlab',
         label: 'Gitlab',
-        icon: Gitlab
-      }
-    ]
+        icon: Gitlab,
+      },
+    ],
   },
   {
     label: 'File Types',
     options: [
       { value: 'pdf', label: 'PDF', icon: File },
       { value: 'word', label: 'word', icon: FileText },
-      { value: 'image', label: 'Image', icon: Image }
-    ]
+      { value: 'image', label: 'Image', icon: Image },
+    ],
   },
   {
     label: 'Others',
@@ -88,21 +72,21 @@ const iconOptions = [
       { value: 'chrome', label: 'Chrome', icon: Chrome },
       { value: 'safari', label: 'Safari', icon: Command },
       { value: 'slack', label: 'Slack', icon: Slack },
-      { value: 'youtube', label: 'Youtube', icon: Youtube }
-    ]
-  }
-]
+      { value: 'youtube', label: 'Youtube', icon: Youtube },
+    ],
+  },
+];
 
 const OptionComponent = ({ data, ...props }) => {
-  const Icon = data.icon
+  const Icon = data.icon;
 
   return (
     <components.Option {...props}>
       <Icon className='mr-50' size={14} />
       {data.label}
     </components.Option>
-  )
-}
+  );
+};
 
 const groupedOptions = [
   {
@@ -112,8 +96,8 @@ const groupedOptions = [
       { value: 'Dark Chocolate', label: 'Dark Chocolate' },
       { value: 'chocolate', label: 'Chocolate' },
       { value: 'strawberry', label: 'Strawberry' },
-      { value: 'salted-caramel', label: 'Salted Caramel' }
-    ]
+      { value: 'salted-caramel', label: 'Salted Caramel' },
+    ],
   },
   {
     label: 'Snacks',
@@ -122,86 +106,86 @@ const groupedOptions = [
       { value: 'Burger', label: 'Burger' },
       { value: 'Pasta', label: 'Pasta' },
       { value: 'Pretzel', label: 'Pretzel' },
-      { value: 'Popcorn', label: 'Popcorn' }
-    ]
-  }
-]
+      { value: 'Popcorn', label: 'Popcorn' },
+    ],
+  },
+];
 
-const animatedComponents = makeAnimated()
+const animatedComponents = makeAnimated();
 
 const styles = {
   multiValue: (base, state) => {
-    return state.data.isFixed ? { ...base, opacity: '0.5' } : base
+    return state.data.isFixed ? { ...base, opacity: '0.5' } : base;
   },
   multiValueLabel: (base, state) => {
-    return state.data.isFixed ? { ...base, color: '#626262', paddingRight: 6 } : base
+    return state.data.isFixed ? { ...base, color: '#626262', paddingRight: 6 } : base;
   },
   multiValueRemove: (base, state) => {
-    return state.data.isFixed ? { ...base, display: 'none' } : base
-  }
-}
+    return state.data.isFixed ? { ...base, display: 'none' } : base;
+  },
+};
 
-const orderOptions = values => {
-  if (values.length > 0) return values.filter(v => v.isFixed).concat(values.filter(v => !v.isFixed))
-}
+const orderOptions = (values) => {
+  if (values.length > 0) return values.filter((v) => v.isFixed).concat(values.filter((v) => !v.isFixed));
+};
 
-const formatGroupLabel = data => (
+const formatGroupLabel = (data) => (
   <div className='d-flex justify-content-between align-center'>
     <strong>
       <span>{data.label}</span>
     </strong>
     <span>{data.options.length}</span>
   </div>
-)
+);
 
 const SelectOptions = () => {
-  const [fixedValue, setFixedValue] = useState(orderOptions([colorOptions[0], colorOptions[1], colorOptions[3]]))
+  const [fixedValue, setFixedValue] = useState(orderOptions([colorOptions[0], colorOptions[1], colorOptions[3]]));
 
-  const filterColors1 = inputValue => {
-    return colorOptions.filter(i => i.label.toLowerCase().includes(inputValue.toLowerCase()))
-  }
+  const filterColors1 = (inputValue) => {
+    return colorOptions.filter((i) => i.label.toLowerCase().includes(inputValue.toLowerCase()));
+  };
 
   const loadOptions = (inputValue, callback) => {
     setTimeout(() => {
-      callback(filterColors1(inputValue))
-    }, 2000)
-  }
+      callback(filterColors1(inputValue));
+    }, 2000);
+  };
 
-  const filterColors2 = inputValue => {
-    return colorOptions.filter(i => i.label.toLowerCase().includes(inputValue.toLowerCase()))
-  }
+  const filterColors2 = (inputValue) => {
+    return colorOptions.filter((i) => i.label.toLowerCase().includes(inputValue.toLowerCase()));
+  };
 
   const fixedOnChange = (value, { action, removedValue }) => {
     switch (action) {
       case 'remove-value':
       case 'pop-value':
         if (removedValue.isFixed) {
-          return
+          return;
         }
-        break
+        break;
       case 'clear':
-        value = colorOptions.filter(v => v.isFixed)
-        break
+        value = colorOptions.filter((v) => v.isFixed);
+        break;
       default:
-        break
+        break;
     }
 
-    value = orderOptions(value)
-    setFixedValue(value)
-  }
+    value = orderOptions(value);
+    setFixedValue(value);
+  };
 
-  const handleInputChange = newValue => {
-    const val = newValue.replace(/\W/g, '')
-    return val
-  }
+  const handleInputChange = (newValue) => {
+    const val = newValue.replace(/\W/g, '');
+    return val;
+  };
 
-  const promiseOptions = inputValue => {
-    return new Promise(resolve => {
+  const promiseOptions = (inputValue) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(filterColors2(inputValue))
-      }, 2000)
-    })
-  }
+        resolve(filterColors2(inputValue));
+      }, 2000);
+    });
+  };
 
   return (
     <Card>
@@ -281,14 +265,7 @@ const SelectOptions = () => {
           </Col>
           <Col md={6} xs={12} className='mb-1'>
             <Label>Async Promises Select</Label>
-            <AsyncSelect
-              isClearable={false}
-              className='react-select'
-              classNamePrefix='select'
-              loadOptions={promiseOptions}
-              cacheOptions
-              defaultOptions
-            />
+            <AsyncSelect isClearable={false} className='react-select' classNamePrefix='select' loadOptions={promiseOptions} cacheOptions defaultOptions />
           </Col>
           <Col className='mb-1' md='6' sm='12'>
             <Label>Creatable Select</Label>
@@ -301,13 +278,13 @@ const SelectOptions = () => {
               className='react-select'
               classNamePrefix='select'
               components={{
-                Option: OptionComponent
+                Option: OptionComponent,
               }}
             />
           </Col>
         </Row>
       </CardBody>
     </Card>
-  )
-}
-export default SelectOptions
+  );
+};
+export default SelectOptions;

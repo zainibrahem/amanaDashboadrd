@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AlignJustify, Rss, Info, Image, Users, Edit } from 'react-feather';
 import { Card, CardImg, Collapse, Navbar, Nav, NavItem, NavLink, Button } from 'reactstrap';
-
+import src from '../../../assets/images/pages/defualt.png';
 const ProfileHeader = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -9,11 +9,11 @@ const ProfileHeader = ({ data }) => {
 
   return (
     <Card className='profile-header mb-2'>
-      <CardImg src={data.avatar} alt='User Profile Image' top />
+      <CardImg src={data.avatar ? data.avatar : src} alt='User Profile Image' top style={{ height: '300px' }} />
       <div className='position-relative'>
         <div className='profile-img-container d-flex align-items-center'>
           <div className='profile-img'>
-            <img className='rounded img-fluid' src={data.avatar} alt='Card image' />
+            <img className='rounded img-fluid' src={data.avatar ? data.avatar : src} alt='Card image' />
           </div>
           <div className='profile-title ml-3'>
             <h2 className='text-white'>{data.username}</h2>

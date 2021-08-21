@@ -41,6 +41,16 @@ const Register = () => {
   const [shop_name, setShop_name] = useState('');
   const [agree, setAgree] = useState(1);
 
+  const hudelCheckTeam = (e) => {
+    if (!e.target.checked) {
+      setAgree(1);
+      console.log(agree);
+    } else {
+      setAgree(0);
+      console.log(agree);
+    }
+  };
+
   useEffect(() => {
     axios
       .get('https://amanacart.com/api/admin/auth/register')
@@ -70,14 +80,7 @@ const Register = () => {
     source = require(`@src/assets/images/pages/${illustration}`).default;
 
   const Terms = () => {
-    return (
-      <Fragment>
-        I agree to
-        <a className='ml-25' href='/' onClick={(e) => e.preventDefault()}>
-          privacy policy & terms
-        </a>
-      </Fragment>
-    );
+    return <Fragment>أوافق على سياسة الخصوصية وشروطها</Fragment>;
   };
   const handleSuccess = (msg) => {
     return MySwal.fire({
@@ -144,21 +147,37 @@ const Register = () => {
         .then((res) => {
           if (res.data.error) {
             const arr = {};
-            for (const property in res.data.error) {
-              if (res.data.error[property] !== null) arr[property] = res.data.error[property];
-            }
+            // for (const property in res.data.error) {
+            //   if (res.data.error[property] !== null) arr[property] = res.data.error[property];
+            // }
             setValErrors(arr);
             if (res.data.error.email !== null) console.error(res.data.error.email);
             if (res.data.error.username !== null) console.error(res.data.error.username);
           } else {
             setValErrors({});
-            const data = { ...res.data.user, accessToken: res.data.accessToken };
-            ability.update(res.data.user.ability);
-            dispatch(handleLogin(data));
-            history.push('/');
+            // const data = { ...res.data.user, accessToken: res.data.accessToken };
+            // ability.update(res.data.user.ability);
+            // dispatch(handleLogin(data));
+            history.push('/login');
           }
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          // console.log(error);
+          if (error.response) {
+            console.log(error.response.status);
+            if (error.response.status === 500) {
+              handleErrorNetwork(`${error.response.status} internal server error`);
+              console.log(error.response.status);
+            } else if (error.response.status === 404) {
+              handleErrorNetwork(`${error.response.status} page not found`);
+            } else {
+              handleError(error.response.data.error);
+            }
+          } else {
+            handleErrorNetwork(`${error}`);
+          }
+        });
+      // .catch((err) => console.log(err.response.data.error));
     }
   };
 
@@ -288,27 +307,21 @@ const Register = () => {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label className='form-label' for='register-email'>
-                  البريد الالكتروني
-                </Label>
                 <Input
                   type='email'
                   value={email}
                   id='register-email'
                   name='register-email'
                   onChange={handleEmailChange}
-                  placeholder='john@example.com'
+                  placeholder='البريد الالكتروني'
                   className={classnames({ 'is-invalid': errors['register-email'] })}
                   innerRef={register({ required: true, validate: (value) => value !== '' })}
                 />
                 {Object.keys(valErrors).length && valErrors.email ? <small className='text-danger'>{valErrors.email}</small> : null}
               </FormGroup>
               <FormGroup>
-                <Label className='form-label' for='register-password'>
-                  كلمة السر
-                </Label>
                 <InputPasswordToggle
-                  value={password}
+                  placeholder='كلمة السر'
                   id='register-password'
                   name='register-password'
                   className='input-group-merge'
@@ -318,10 +331,8 @@ const Register = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <Label className='form-label' for='password_confirmation'>
-                  تاكيد كلمة السر
-                </Label>
                 <InputPasswordToggle
+                  placeholder='تاكيد كلمة السر'
                   id='password_confirmation'
                   name='password_confirmation'
                   className='input-group-merge'
@@ -350,18 +361,19 @@ const Register = () => {
                   label={<Terms />}
                   className='custom-control-Primary'
                   innerRef={register({ required: true })}
-                  onChange={(e) => setTerms(e.target.checked)}
+                  onChange={(e) => hudelCheckTeam(e)}
+                  // onChange={(e) => setTerms(e.target.checked)}
                   invalid={errors.terms && true}
                 />
               </FormGroup>
               <Button.Ripple type='submit' block color='primary'>
-                Sign up
+                انشاء حساب
               </Button.Ripple>
             </Form>
             <p className='text-center mt-2'>
-              <span className='mr-25'>Already have an account?</span>
+              <span className='mr-25'>هل تمتلك حساب؟</span>
               <Link to='/login'>
-                <span>Sign in instead</span>
+                <span>تسجيل الدخول بدلا من ذلك</span>
               </Link>
             </p>
             {/* <div className='divider my-2'>

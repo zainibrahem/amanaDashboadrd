@@ -1,0 +1,14 @@
+.user{
+    position: relative;
+    left: -160px !important;
+     right: 0px !important
+}
+
+/* .header-navbar .navbar-container ul.navbar-nav li > a.nav-link{
+    color: #ffc107 !important;
+} */
+.media-body{
+    border: 1px solid #f1b101 !important;
+    text-align: center !important;
+    border-radius: 5px !important
+}

@@ -19,6 +19,11 @@ const OrderRoutes = [
     exact: true,
   },
   {
+    path: '/order/order/:id',
+    component: lazy(() => import('../../views/order/creatOrder')),
+    exact: true,
+  },
+  {
     path: '/order/carts',
     component: lazy(() => import('../../views/order/carts')),
     exact: true,

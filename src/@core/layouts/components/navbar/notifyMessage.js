@@ -12,10 +12,10 @@ import withReactContent from 'sweetalert2-react-content';
 // ** Third Party Components
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Bell, X, Check, AlertTriangle } from 'react-feather';
+import { MessageSquare, X, Check, AlertTriangle } from 'react-feather';
 import { Button, Badge, Media, CustomInput, DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
-const NotificationDropdown = () => {
+const NotificationMessage = () => {
   const config = useJwt.jwtConfig;
 
   const auth = {
@@ -93,8 +93,8 @@ const NotificationDropdown = () => {
       .get('https://amanacart.com/api/admin/notifications', auth)
       .then((response) => {
         console.log(response.data);
-        setNotification(response.data.notifications);
-        setNotify_count(response.data.notifications_count);
+        setNotification(response.data.messages);
+        setNotify_count(response.data.messages_count);
       })
       .catch((error) => {
         // console.log(error);
@@ -204,8 +204,7 @@ const NotificationDropdown = () => {
                   <Fragment>
                     <Media body>
                       {item.user}
-                      <br />
-                      <p className='notification-text'>{item.name}</p>
+                      <small className='notification-text'>{item.name}</small>
                     </Media>
                   </Fragment>
                 </Media>
@@ -223,7 +222,7 @@ const NotificationDropdown = () => {
               >
                 <Fragment>
                   <Media body>
-                    <small className='notification-text'>لا يوجد تشعارات</small>
+                    <small className='notification-text'>لا يوجد رسائل</small>
                   </Media>
                 </Fragment>
               </Media>
@@ -238,7 +237,7 @@ const NotificationDropdown = () => {
   return (
     <UncontrolledDropdown tag='li' className='dropdown-notification nav-item mr-25'>
       <DropdownToggle tag='a' className='nav-link' href='/' onClick={(e) => e.preventDefault()}>
-        <Bell size={21} />
+        <MessageSquare size={21} />
         <Badge pill color='danger' className='badge-up'>
           {notify_count}
         </Badge>
@@ -267,4 +266,4 @@ const NotificationDropdown = () => {
   );
 };
 
-export default NotificationDropdown;
+export default NotificationMessage;

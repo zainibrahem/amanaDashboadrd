@@ -5,17 +5,16 @@ import axios from 'axios';
 import Avatar from '@components/avatar';
 // ** UseJWT import to get config
 import useJwt from '@src/auth/jwt/useJwt';
-
+import { Link } from 'react-router-dom';
 //alert
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 // ** Third Party Components
-import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Bell, X, Check, AlertTriangle } from 'react-feather';
+import { Bell, X, Check, AlertTriangle, Shield } from 'react-feather';
 import { Button, Badge, Media, CustomInput, DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
-const NotificationDropdown = () => {
+const NotificationAdvirstis = () => {
   const config = useJwt.jwtConfig;
 
   const auth = {
@@ -23,9 +22,9 @@ const NotificationDropdown = () => {
       Authorization: `${config.tokenType} ${localStorage.getItem('token')}`,
     },
   };
-  // alert success
   const MySwal = withReactContent(Swal);
 
+  // alert success
   const handleSuccess = (msg) => {
     return MySwal.fire({
       title: 'عمل جيد!',
@@ -86,15 +85,14 @@ const NotificationDropdown = () => {
       buttonsStyling: false,
     });
   };
-  const [notification, setNotification] = useState([]);
+  const [notification, setNotification] = useState(null);
   const [notify_count, setNotify_count] = useState('');
   useEffect(() => {
     axios
       .get('https://amanacart.com/api/admin/notifications', auth)
       .then((response) => {
         console.log(response.data);
-        setNotification(response.data.notifications);
-        setNotify_count(response.data.notifications_count);
+        setNotification(response.data.active_announcement);
       })
       .catch((error) => {
         // console.log(error);
@@ -191,30 +189,26 @@ const NotificationDropdown = () => {
           wheelPropagation: false,
         }}
       >
-        {notification && notification.length > 0 ? (
-          notification.map((item, index) => {
-            return (
-              <a key={index} className='d-flex' href='/' onClick={(e) => e.preventDefault()}>
-                <Media
-                // className={classnames('d-flex', {
-                //   'align-items-start': !item.switch,
-                //   'align-items-center': item.switch,
-                // })}
-                >
-                  <Fragment>
-                    <Media body>
-                      {item.user}
-                      <br />
-                      <p className='notification-text'>{item.name}</p>
-                    </Media>
-                  </Fragment>
+        {notification ? (
+          <Link
+            to={{
+              pathname: '/admin',
+            }}
+          >
+            <Media>
+              <Fragment>
+                <Media body>
+                  {notification.action_text.replace(/<[^>]+>/g, '')}
+                  <br />
+                  <small>{notification.parsed_body.replace(/<[^>]+>/g, '')}</small>
+                  {/* <small className='notification-text'>{notification.parsed_body.replace(/<[^>]+>/g, '')}</small> */}
                 </Media>
-              </a>
-            );
-          })
+              </Fragment>
+            </Media>
+          </Link>
         ) : (
           <>
-            <a className='d-flex' href='/' onClick={(e) => e.preventDefault()}>
+            <a className='d-flex' href='/admin' onClick={(e) => e.preventDefault()}>
               <Media
               // className={classnames('d-flex', {
               //   'align-items-start': !item.switch,
@@ -223,7 +217,7 @@ const NotificationDropdown = () => {
               >
                 <Fragment>
                   <Media body>
-                    <small className='notification-text'>لا يوجد تشعارات</small>
+                    <small className='notification-text'>لا يوجد اشعارات</small>
                   </Media>
                 </Fragment>
               </Media>
@@ -238,20 +232,12 @@ const NotificationDropdown = () => {
   return (
     <UncontrolledDropdown tag='li' className='dropdown-notification nav-item mr-25'>
       <DropdownToggle tag='a' className='nav-link' href='/' onClick={(e) => e.preventDefault()}>
-        <Bell size={21} />
-        <Badge pill color='danger' className='badge-up'>
+        <Shield size={21} />
+        {/* <Badge pill color='danger' className='badge-up'>
           {notify_count}
-        </Badge>
+        </Badge> */}
       </DropdownToggle>
       <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>
-        <li className='dropdown-menu-header'>
-          <DropdownItem className='d-flex' tag='div' header>
-            <h4 className='notification-title mb-0 mr-auto'>الاشعارات</h4>
-            <Badge tag='div' color='light-primary' pill>
-              {notify_count}
-            </Badge>
-          </DropdownItem>
-        </li>
         {renderNotificationItems()}
         {/* <li className='dropdown-menu-footer'>
           {notify_count > 0 ? (
@@ -267,4 +253,4 @@ const NotificationDropdown = () => {
   );
 };
 
-export default NotificationDropdown;
+export default NotificationAdvirstis;

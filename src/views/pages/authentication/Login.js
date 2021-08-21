@@ -107,14 +107,15 @@ const Login = (props) => {
     });
   };
   const onSubmit = (data) => {
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    formData.append('email', email);
-    formData.append('password', password);
+    // formData.append('email', email);
+    // formData.append('password', password);
 
     useJwt
       .login({ email, password })
       .then((res) => {
+        console.log(res);
         const data = { ...res.data, accessToken: res.data.api_token, refreshToken: res.data.refreshToken };
         dispatch(handleLogin(data));
         ability.update([
@@ -130,8 +131,7 @@ const Login = (props) => {
         history.push(data.role || 'admin');
         toast.success(<ToastContent name={data.nice_name || 'John Doe'} role={data.role || 'admin'} />, { transition: Slide, hideProgressBar: true });
       })
-      .catch();
-    // }autoClose: 2000
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -231,7 +231,7 @@ const Login = (props) => {
               <FormGroup>
                 <Input type='password' id='login-password' name='login-password' onChange={(e) => setPassword(e.target.value)} placeholder=' كلمة السر' autoFocus require />
               </FormGroup>
-              {/* <div style={{ textAlign: 'right' }}>
+              <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'space-between' }}>
                 <Link
                   to={{
                     pathname: '/register',
@@ -239,7 +239,9 @@ const Login = (props) => {
                 >
                   انشاء حساب
                 </Link>
-              </div> */}
+
+                <div style={{ color: '#897ef2' }}>هل نسيت كلمة المرور؟</div>
+              </div>
 
               {/* <FormGroup>
               <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' />
