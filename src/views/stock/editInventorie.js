@@ -243,7 +243,7 @@ const Catalog = (props) => {
         .post(`https://amanacart.com/api/admin/stock/inventory/${params.id}/update`, formData, auth)
         .then((response) => {
           console.log(response);
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
 
           setBasicModal(!basicModal);
           window.location.reload();

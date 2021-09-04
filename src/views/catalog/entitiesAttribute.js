@@ -142,7 +142,7 @@ const Catalog = (props) => {
         .post('https://amanacart.com/api/admin/catalog/attribute', { attribute_type_id: Number(type.type), name: name.name, order: order.order }, auth)
         .then((response) => {
           // console.log(response)
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
           setBasicModal(!basicModal);
           window.location.reload();
         })
@@ -173,7 +173,7 @@ const Catalog = (props) => {
         .post('https://amanacart.com/api/admin/catalog/attribute', { attribute_type_id: Number(type.type), name: name.name, order: order.order }, auth)
         .then((response) => {
           // console.log(response)
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
           setBasicModal(!basicModal);
           window.location.reload();
         })

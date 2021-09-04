@@ -281,7 +281,7 @@ export const Columns = [
           .put(`https://amanacart.com/api/admin/setting/role/${id}`, formData, auth)
           .then((response) => {
             // console.log(response);
-            handleSuccess('ADD SUCCESS');
+            handleSuccess('تمت العملية بنجاح');
 
             window.location.reload();
 

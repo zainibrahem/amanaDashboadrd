@@ -62,7 +62,7 @@ const UserDropdown = () => {
         </div>
         <Avatar img={data.avatar} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
-      <DropdownMenu right>
+      <DropdownMenu right className="left-100px">
         <DropdownItem tag={Link} to='/pages/profile'>
           <User size={14} className='mr-75' />
           <span className='align-middle'>الملف الشخصي</span>

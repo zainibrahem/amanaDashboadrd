@@ -125,7 +125,7 @@ export const handleLogout = () => {
     .then((response) => {
       console.log(response.data);
       // localStorage.removeItem('token', response.data.api_token);
-      handleSuccess('ADD SUCCESS');
+      handleSuccess('تمت العملية بنجاح');
 
       // setBasicModal(!basicModal);
       // return response;

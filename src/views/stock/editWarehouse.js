@@ -186,7 +186,7 @@ const Catalog = (props) => {
         .put(`https://amanacart.com/api/admin/stock/warehouse/${params.id}`, formData, auth)
         .then((response) => {
           console.log(response);
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
           setBasicModal(!basicModal);
           window.location.reload();
 

@@ -35,9 +35,12 @@
     border-color: #82868b !important;
     background-color: #82868b !important;
 }
-
+.left-100px{
+    left: -100px !important;
+    right: 0px !important
+}
 .dropdown .dropdown-menu.dropdown-menu-right, .dropup .dropdown-menu.dropdown-menu-right, .btn-group .dropdown-menu.dropdown-menu-right {
-    left: -243px !important;
+    left: -100px !important;
     right: 0px !important
 }
 

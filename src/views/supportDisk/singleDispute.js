@@ -75,7 +75,7 @@ const Catalog = (props) => {
       .then((response) => {
         console.log(response);
         window.location.reload();
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;
@@ -240,7 +240,7 @@ const Catalog = (props) => {
       .post(`https://amanacart.com/api/admin/support/dispute/${params.id}/storeResponse`, formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
         window.location.reload();
       })
       .catch((error) => {

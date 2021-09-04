@@ -199,7 +199,7 @@ const Catalog = (props) => {
       .post(`https://amanacart.com/api/admin/support/message/${params.id}/storeReply`, formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
         window.location.reload();
       })
       .catch((error) => {
@@ -296,15 +296,15 @@ const Catalog = (props) => {
                   <div className=''>
                     <h5>{data.subject ? data.subject : ''}</h5>
 
-                    <p style={{ marginBottom: '0rem' }}>
-                      From:{' '}
-                      <span>
+                    <p style={{ marginBottom: '0rem' ,display:"flex",justifyContent:"space-between",flexDirection:"row-reverse"}} dir="ltr">
+                    :من {'   '}
+                      <span style={{marginRight:"3px"}}>
                         {costomer.nice_name ? costomer.nice_name : ''} {'<'}
                         {costomer.email ? costomer.email : ''}
                         {'>'}
                       </span>
                     </p>
-                    <p>Order:{order ? order.order_number : ''}</p>
+                    <p>رقم الطلب:{order ? order.order_number : ''}</p>
                   </div>
                 </div>
               </Col>
@@ -314,8 +314,8 @@ const Catalog = (props) => {
               </Col>
               <Col>
                 <Button color='primary' type='submit' onClick={() => setBasicModal(!basicModal)} style={{ marginTop: '15px', marginBottom: '15px' }}>
+                  إرسال رد
                   <CornerUpLeft size={14} style={{ marginRight: '8px' }} />
-                  Reply
                 </Button>
               </Col>
             </Col>

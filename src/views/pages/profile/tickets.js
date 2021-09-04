@@ -186,7 +186,7 @@ const Catalog = () => {
       .then((response) => {
         console.log(response);
         window.location.reload();
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;

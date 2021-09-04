@@ -319,7 +319,7 @@ const Register = () => {
                 />
                 {Object.keys(valErrors).length && valErrors.email ? <small className='text-danger'>{valErrors.email}</small> : null}
               </FormGroup>
-              <FormGroup>
+              <FormGroup className="sssss">
                 <InputPasswordToggle
                   placeholder='كلمة السر'
                   id='register-password'
@@ -330,7 +330,7 @@ const Register = () => {
                   innerRef={register({ required: true, validate: (value) => value !== '' })}
                 />
               </FormGroup>
-              <FormGroup>
+              <FormGroup className="sssss">
                 <InputPasswordToggle
                   placeholder='تاكيد كلمة السر'
                   id='password_confirmation'

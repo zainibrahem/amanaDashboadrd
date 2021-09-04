@@ -129,7 +129,7 @@ const Login = (props) => {
           },
         ]);
         history.push(data.role || 'admin');
-        toast.success(<ToastContent name={data.nice_name || 'John Doe'} role={data.role || 'admin'} />, { transition: Slide, hideProgressBar: true });
+        toast.success(<ToastContent name={data.nice_name || 'بك'} role={data.role || 'admin'} />, { transition: Slide, hideProgressBar: true });
       })
       .catch((err) => console.log(err));
   };

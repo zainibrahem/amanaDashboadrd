@@ -215,7 +215,7 @@ const Catalog = (props) => {
       .then((response) => {
         console.log(response);
         setBasicModal(!basicModal);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         window.location.reload();
 

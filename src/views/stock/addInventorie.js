@@ -223,7 +223,7 @@ const Catalog = (props) => {
       .post('https://amanacart.com/api/admin/stock/inventory/store', formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
         setBasicModal(!basicModal);
         history.push('/stock/inventories');
       })
@@ -304,6 +304,7 @@ const Catalog = (props) => {
               <Label for='image'>صورة</Label>
               {/* onChange={(e) => handleFileSelected(e)} */}
               <CustomInput type='file' onChange={(e) => handleFileSelected(e)} id='image' name='image' />
+              <p style={{fontSize:"12px",marginTop:"10px"}}>الصورة يجب أن تكون 500 * 500</p>
             </FormGroup>
           </Col>
           <Col>
@@ -320,12 +321,7 @@ const Catalog = (props) => {
               onChange={(e) => setTags(e)}
             />
           </Col>
-          <Col className='' lg='12' md='12' xs='12'>
-            {/* style={{ padding: '10px 10px 0px', margin: '0px' }} */}
-            {/* <Label for='title'>UPDATE Warehouse</Label> */}
-            {/* <hr style={{ borderColor: 'blue' }} /> */}
-            <ModalHeader>قواعد الصورة</ModalHeader>
-          </Col>
+         
           <Col className='mb-1' lg='6' md='6' xs='12'>
             <Label for='stock_quantity'>كمية المخزون*</Label>
             <Input type='number' name='stock_quantity' id='stock_quantity' onChange={(e) => setStock_quantity(e.target.value)} value={stock_quantity} required />

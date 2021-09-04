@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // ** React Imports
-import { Fragment, useState, forwardRef } from 'react';
+import { Fragment, useState, forwardRef ,useEffect } from 'react';
 
 // ** Add New Modal Component
 import Model from './Model';
@@ -67,12 +67,20 @@ const DataTableWithButtons = (props) => {
     // console.log(col)
 
     if (value.length) {
-      updatedData = props.data.filter((item) => {
+      updatedData = [];
+      props.data.filter((item) => {
         // return item.indexOf(value) > -1;
-
-        col.map((i) => {
-          console.log(item.type);
-          console.log(i);
+        props.data.map((i) => {
+          var flag = false;
+          col.map((j)=>{
+            
+            if(typeof i[j] == "string" && i[j].toLowerCase().includes(value.toLowerCase())){
+              flag = true;
+            }
+          })
+          if(flag == true){
+            updatedData.push(i);
+          }
           // const startsWith  = item.i.toLowerCase().startsWith(value.toLowerCase())
         });
 
@@ -112,7 +120,10 @@ const DataTableWithButtons = (props) => {
       setSearchValue(value);
     }
   };
-
+  useEffect(() => {
+    console.log('props.data')
+    console.log(props.data)
+    }, []);
   // ** Function to handle Pagination
   const handlePagination = (page) => {
     setCurrentPage(page.selected);

@@ -186,7 +186,7 @@ const Catalog = (props) => {
       .post(`https://amanacart.com/api/admin/setting/role`, formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         window.location.reload();
 

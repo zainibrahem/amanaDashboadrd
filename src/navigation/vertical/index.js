@@ -8,6 +8,7 @@ import dashboards from './dashboards';
 import uiElements from './ui-elements';
 import chartsAndMaps from './charts-maps';
 import catalog from './catalog';
+import wallet from './wallet';
 
 import Stock from './stock';
 
@@ -32,6 +33,7 @@ export default [
   ...Shipping,
   ...UsersM,
   ...Coupones,
+  ...wallet,
   ...SupportDisk,
   ...Settings,
   ...apps,

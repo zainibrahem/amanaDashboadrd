@@ -168,7 +168,7 @@ const Catalog = (props) => {
       .then((response) => {
         console.log(response);
         window.location.reload();
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;
@@ -238,7 +238,7 @@ const Catalog = (props) => {
         </Col>
       </Row>
       <Modal isOpen={basicModal} toggle={() => setBasicModal(!basicModal)} className='modal-dialog-centered modal-lg'>
-        <ModalHeader toggle={() => setBasicModal(!basicModal)}>شكل</ModalHeader>
+        <ModalHeader toggle={() => setBasicModal(!basicModal)}>استرداد</ModalHeader>
         <ModalBody>
           <Row>
             <Col className='mb-1' lg='8' md='8' xs='12'>

@@ -138,6 +138,15 @@ const Catalog = (props) => {
       selector: 'message',
       sortable: true,
       minWidth: '250px',
+      cell: (row) => {
+        return (
+          
+            <Link to={{ pathname: `/support/message/${row.id}`, id: row.id }} style={{ cursor: 'pointer' , maxWidth:"100%"  }}>
+              <Badge style={{maxWidth:"100%",paddingLeft:"30px",color:"black",overflow:"hidden"}} color='transparent' text="black">{row.message}</Badge>
+            </Link>
+          
+        );
+      },
     },
     {
       selector: 'order_number',
@@ -173,7 +182,7 @@ const Catalog = (props) => {
       cell: (row) => {
         return (
           <Badge color='secondary' className='number'>
-            1 houer ago{' '}
+            {row.created_at}
           </Badge>
         );
       },
@@ -303,7 +312,7 @@ const Catalog = (props) => {
       .post('https://amanacart.com/api/admin/support/message', formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
         window.location.reload();
       })
       .catch((error) => {

@@ -188,7 +188,7 @@ const Catalog = (props) => {
       .then((response) => {
         console.log(response);
         window.location.reload();
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;
@@ -434,7 +434,7 @@ const Catalog = (props) => {
       .then((response) => {
         console.log(response);
         window.location.reload();
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;
@@ -534,7 +534,7 @@ const Catalog = (props) => {
       .then((response) => {
         console.log(response);
         window.location.reload();
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;
@@ -608,7 +608,7 @@ const Catalog = (props) => {
               .then((response) => {
                 console.log(response);
                 window.location.reload();
-                handleSuccess('ADD SUCCESS');
+                handleSuccess('تمت العملية بنجاح');
 
                 // setBasicModal(!basicModal);
                 // return response;

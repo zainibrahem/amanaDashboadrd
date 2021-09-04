@@ -285,7 +285,7 @@ const ProfileAbout = () => {
         .post(`https://amanacart.com/api/admin/updatePassword`, formData, auth)
         .then((response) => {
           console.log(response);
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
 
           // window.location.reload();
 
@@ -332,7 +332,7 @@ const ProfileAbout = () => {
       .post(`https://amanacart.com/api/admin/address/${address_id}`, formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         window.location.reload();
 

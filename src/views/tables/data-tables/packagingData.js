@@ -287,7 +287,7 @@ export const Columns = [
           .then((response) => {
             console.log(response.status);
             window.location.reload();
-            handleSuccess('ADD SUCCESS');
+            handleSuccess('تمت العملية بنجاح');
 
             // setBasicModal(!basicModal);
             // return response;

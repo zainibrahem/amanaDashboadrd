@@ -154,20 +154,23 @@ const EcommerceDashboard = () => {
         setManufacturer({ manufacturer: response.data.manufacturer });
         setStatus({ status: response.data.statuses });
         const array = [];
+      
         response.data.tags.map((ele) => {
           array.push({ value: ele.id, label: ele.name });
         });
-        console.log(response.data);
         setOptionTags(array);
         const arr = [];
+        console.log('sddddddddddd')
+
         response.data.categories.map((ele) => {
           const newOption = [];
           ele.sub_groups.map((i) => {
             newOption.push({ label: i.name, value: i.categories });
           });
+         
           const opt = [];
           newOption.map((j) => {
-            // console.log(j)
+            console.log(j)
             const opt3 = [];
             j.value.map((val) => {
               opt3.push({ label: val.name, value: val.id });
@@ -175,6 +178,7 @@ const EcommerceDashboard = () => {
             arr.push({ options: opt3, label: ` ${ele.name}  ${j.label} ` });
           });
         });
+        console.log(arr)
         setCategories(arr);
         // console.log("----------------------")
         // console.log(countries)
@@ -261,7 +265,7 @@ const EcommerceDashboard = () => {
           console.log(response);
           console.log("formDatas['tags_list']");
           console.log(formDatas['image_list']);
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
           window.location.reload();
 
           setImages([]);
@@ -446,7 +450,7 @@ const EcommerceDashboard = () => {
                     </Alert>
                   </Col>
                   <Col className='mb-1' md='12'>
-                    <Label for='cat'>كاتالوغ*</Label>
+                    <Label for='cat'>التصنيف*</Label>
                     <Select
                       isClearable={false}
                       theme={selectThemeColors}

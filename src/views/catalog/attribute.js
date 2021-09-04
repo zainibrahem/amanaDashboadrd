@@ -171,7 +171,7 @@ const Catalog = () => {
         .post('https://amanacart.com/api/admin/catalog/attribute', formData, auth)
         .then((response) => {
           // console.log(response)
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
           setBasicModal(!basicModal);
           window.location.reload();
         })
@@ -212,7 +212,7 @@ const Catalog = () => {
         .post('https://amanacart.com/api/admin/catalog/attributeValue', formData,auth)
         .then((response) => {
           // console.log(response)
-          handleSuccess('ADD SUCCESS');
+          handleSuccess('تمت العملية بنجاح');
           setBasicModal(!basicModal);
           window.location.reload();
         })

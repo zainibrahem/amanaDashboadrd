@@ -17,6 +17,7 @@ import OrderRoutes from './Order';
 import ShippingRoutes from './Shippings';
 
 import UserRoutes from './Users';
+import WalletRoutes from './Wallet';
 
 import CouponRoutes from './Coupons';
 
@@ -48,6 +49,7 @@ const Routes = [
   ...CouponRoutes,
   ...SupportDiskRoutes,
   ...SettingsRoutes,
+  ...WalletRoutes
 ];
 
 export { DefaultRoute, TemplateTitle, Routes };

@@ -28,7 +28,7 @@ const SupportDiskRoutes = [
     exact: true,
   },
   {
-    path: '/ticket/:id',
+    path: '/tickets',
     component: lazy(() => import('../../views/pages/profile/singleTickt')),
     exact: true,
   },

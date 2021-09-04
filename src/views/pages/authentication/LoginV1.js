@@ -103,7 +103,7 @@ const LoginV1 = () => {
         console.log(response.data);
         localStorage.setItem('token', response.data.api_token);
         history.push('/dashboard/ecommerce');
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         // setBasicModal(!basicModal);
         // return response;

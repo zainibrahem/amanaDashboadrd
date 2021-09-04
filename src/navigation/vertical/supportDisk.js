@@ -31,10 +31,10 @@ export default [
       },
       {
         id: 'ticket',
-        title: 'ticket',
+        title: 'tickets',
         permissions: ['admin', 'editor'],
-        navLink: '/ticket/:id',
-        newTab: true,
+        navLink: '/tickets',
+        
       },
     ],
   },

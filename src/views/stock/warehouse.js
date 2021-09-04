@@ -211,7 +211,7 @@ const Catalog = () => {
       .post('https://amanacart.com/api/admin/stock/warehouse', formData, auth)
       .then((response) => {
         console.log(response);
-        handleSuccess('ADD SUCCESS');
+        handleSuccess('تمت العملية بنجاح');
 
         setBasicModal(!basicModal);
         window.location.reload();
